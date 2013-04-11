@@ -3,7 +3,7 @@ function parse(ar,cb) {
     var create_handler = function(handler_info,handler_output) {
         var info = handler_info();
         handlers.push(function() {
-            for(var i in info.on) {
+            for(var i in info.on) {    
                 $(i).bind(info.on[i], function(e) {
                     info.call(handler_output,this,e);                    
                 });
@@ -37,7 +37,7 @@ function parse(ar,cb) {
          node.attr(attrs);    
          for(var i=2;i<ar.length;i++) {
               if(Array.isArray(ar[i]))
-                  node.append(parse(ar[i]));      
+                  node.append(parser(ar[i]));      
               else if(typeof ar[i] == "string")
                   node.text(ar[i]);
               else if(typeof ar[i] == "function"){
@@ -67,14 +67,26 @@ function parse(ar,cb) {
 
 
 var a = ["div", {},
-         ["button",{"id" : "more"},"Click me"],
+         ["button",{"id" : "more", "disabled" : function(){
+             return {
+                 on : {
+                     "#chk" : "click",
+                     "load" : 0                     
+                 },
+                 call : function(ret) {
+                     ret($("#chk:checked" ).length < 1);                     
+                 }
+             }
+         }},"Click me"],
+         ["input", {"type" : "checkbox", "id" : "chk", "checked" : true}],
+         ["span", {}, "Enable button"],
          function() {
              return {
                  on : {
                      "#more" : "click"                     
                  },
                  call : function(ret,sender,event) {
-                     ret([["label",{},"Added"], ["br",{}]]);                     
+                     ret([["br",{}], ["label",{},"Added"]]);                     
                  }
              }
          }
