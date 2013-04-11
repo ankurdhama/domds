@@ -5,7 +5,7 @@ function parse(ar,cb) {
         handlers.push(function() {
             for(var i in info.on) {
                 $(i).bind(info.on[i], function(e) {
-                    handler_output(info.call(this,e));                    
+                    info.call(handler_output,this,e);                    
                 });
             }
         });
@@ -73,8 +73,8 @@ var a = ["div", {},
                  on : {
                      "#more" : "click"                     
                  },
-                 call : function() {
-                     return [["label",{},"Added"], ["br",{}]]                     
+                 call : function(ret,sender,event) {
+                     ret([["label",{},"Added"], ["br",{}]]);                     
                  }
              }
          }
