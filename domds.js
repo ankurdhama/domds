@@ -1,4 +1,6 @@
 //New commit 
+//Sample comment
+>>>>>>> c296a0bafdfa72de2717bd207531b6c42e7991cf
 function parse(ar,cb) {
     var handlers = [];
     var create_handler = function(handler_info,handler_output) {
